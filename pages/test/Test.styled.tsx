@@ -4,7 +4,6 @@ import { BoxProps, Box as MuiBox, IconButton as MuiIconButton, Stack as MuiStack
 
 export const Box = styled(MuiBox)(
     ({ theme }) => `
-
 `,
 );
 
