@@ -9,16 +9,12 @@ const nextConfig = {
 
 module.exports = {
     ...nextConfig,
-    webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
+    webpack: (config, options) => {
         config.resolve.alias = {
             ...config.resolve.alias,
             '@': path.resolve(__dirname, 'src'),
+            '@public': path.resolve(__dirname, 'public'),
         };
-        config.module.rules.push({
-            test: /\.svg$/i,
-            issuer: /\.[jt]sx?$/,
-            use: ['@svgr/webpack'],
-        });
         return config;
     },
 };

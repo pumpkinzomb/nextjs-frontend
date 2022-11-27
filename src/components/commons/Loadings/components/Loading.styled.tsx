@@ -9,7 +9,7 @@ export const Stack = styled(MuiStack)(
 );
 
 export const Box = styled(MuiBox)(
-    ({ theme }) => `
+    ({ theme, className }) => `
         position: absolute;
         width: 100%;
         height: 100%;
@@ -17,10 +17,13 @@ export const Box = styled(MuiBox)(
         left:0;
         align-items: center;
         justify-content: center;
-        background: rgba(0,0,0,0.5);
         z-index: 1200;
         border-radius: 5px;
         display: flex;
+        
+        &.bg-on{
+            background: rgba(0,0,0,0.5);
+        }
         .MuiCircularProgress-svg {
             color: ${theme.palette.mode === 'light' ? theme.palette.primary['A200'] : theme.palette.grey['A400']};
         }

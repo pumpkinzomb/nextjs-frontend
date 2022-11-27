@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ComponentType, useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Drawer as MuiDrawer, DrawerProps } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
@@ -111,7 +112,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const SideNavType1 = (props: SideNavType1Props) => {
     const { sideMenuList, onDrawerClose, open, drawerWidth } = props;
-    const [openSecondLevel, setOpenSecondLevel] = useState(-1);
+    const [openSecondLevel, setOpenSecondLevel] = useState(1);
     const router = useRouter();
     const theme = useTheme();
 
@@ -137,9 +138,9 @@ const SideNavType1 = (props: SideNavType1Props) => {
     };
 
     useEffect(() => {
-        const { pathname } = router;
-        const findIndex = findSideMenuIndex(sideMenuList, pathname);
-        setOpenSecondLevel(findIndex);
+        // const { pathname } = router;
+        // const findIndex = findSideMenuIndex(sideMenuList, pathname);
+        // setOpenSecondLevel(findIndex);
     }, [router]);
 
     return (

@@ -25,7 +25,7 @@ const LayoutType1 = ({ children }: LayoutType1Props) => {
     const [open, setOpen] = useState(navigationOpen);
 
     useEffect(() => {
-        // localStorage.setItem('navigation_bar', JSON.stringify(open));
+        localStorage.setItem('navigation_bar', JSON.stringify(open));
     }, [open]);
 
     const handleDrawerOpen = () => {
@@ -58,19 +58,6 @@ const LayoutType1 = ({ children }: LayoutType1Props) => {
                     text: 'Chart',
                     iconComponent: <StopRoundedIcon sx={{ fontSize: '14px', marginLeft: '4px' }} />,
                     link: '/designcomponents/chart',
-                    subMenuList: [],
-                },
-            ],
-        },
-        {
-            text: 'Samples',
-            iconComponent: <StyleIcon />,
-            link: '/samples/mintscan',
-            subMenuList: [
-                {
-                    text: 'MINTSCAN',
-                    iconComponent: <StopRoundedIcon sx={{ fontSize: '14px', marginLeft: '4px' }} />,
-                    link: '/samples/mintscan',
                     subMenuList: [],
                 },
             ],

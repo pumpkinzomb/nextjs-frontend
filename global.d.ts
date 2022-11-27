@@ -1,4 +1,5 @@
-import { myTheme } from './src/styles/theme';
+import * as React from 'react';
+import { myTheme } from '@/styles/theme';
 
 type MyTheme = typeof myTheme;
 type MyPalette = typeof myTheme.palette;
@@ -10,4 +11,9 @@ declare module '@mui/material/styles' {
     interface Palette extends MyPalette {}
     interface PaletteColor extends MyColor {}
     interface TypeBackground extends MyBackground {}
+}
+
+declare module '*.svg' {
+    const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>;
+    export default ReactComponent;
 }

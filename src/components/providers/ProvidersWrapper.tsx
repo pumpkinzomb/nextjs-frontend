@@ -2,9 +2,12 @@ import { createContext, useContext, useMemo, useState } from 'react';
 import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider as StyledComponentThemeProvider } from 'styled-components';
-
+import DialogProvider from '@/components/providers/DialogProvider';
+import NotificationProvider from '@/components/providers/ToastProvider';
 import { myTheme } from '@/styles/theme';
 import GlobalStyles from '@/styles/GlobalStyles';
+
+type ThemeMode = 'light' | 'dark';
 
 type ProvidersWrapperProps = {
     children: React.ReactNode;
@@ -20,8 +23,11 @@ export const useColorMode = () => useContext(ProvidersWrapperContext);
 
 const ProvidersWrapper = (props: ProvidersWrapperProps) => {
     const { children } = props;
-    const getThemeMode = localStorage.getItem('theme_mode') === 'dark' ? 'dark' : 'light';
-    const [mode, setMode] = useState<'light' | 'dark'>(getThemeMode);
+    let getThemeMode = 'light';
+    if (typeof window !== 'undefined') {
+        getThemeMode = localStorage.getItem('theme_mode') === 'dark' ? 'dark' : 'light';
+    }
+    const [mode, setMode] = useState<ThemeMode>(getThemeMode as ThemeMode);
 
     const colorMode = useMemo(
         () => ({
@@ -47,11 +53,15 @@ const ProvidersWrapper = (props: ProvidersWrapperProps) => {
         <ProvidersWrapperContext.Provider value={colorMode}>
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme}>
-                    <CssBaseline />
-                    <StyledComponentThemeProvider theme={theme}>
-                        <GlobalStyles />
-                    </StyledComponentThemeProvider>
-                    {children}
+                    <NotificationProvider>
+                        <DialogProvider>
+                            <CssBaseline />
+                            <StyledComponentThemeProvider theme={theme}>
+                                <GlobalStyles />
+                            </StyledComponentThemeProvider>
+                            {children}
+                        </DialogProvider>
+                    </NotificationProvider>
                 </ThemeProvider>
             </StyledEngineProvider>
         </ProvidersWrapperContext.Provider>

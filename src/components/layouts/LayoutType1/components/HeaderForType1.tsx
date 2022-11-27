@@ -1,12 +1,16 @@
 import * as React from 'react';
-import { useTheme, styled, Toolbar, IconButton } from '@mui/material';
-import { AppBar as ImportedAppBar, Box, Divider } from './HeaderForType1.styled';
-import Logo from './Logo';
-import LogoDSRV_B from '@/styles/svgs/master_black.svg';
-import LogoDSRV_W from '@/styles/svgs/master_white.svg';
+import Image from 'next/image';
+import { useTheme, styled, Toolbar } from '@mui/material';
 import AppsIcon from '@mui/icons-material/Apps';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
-const SERVICE_NAME = process.env.REACT_APP_SERVICE_NAME || 'Sonar';
+import { useColorMode } from '@/components/providers/ProvidersWrapper';
+import DSRV from '@/components/svgs/DsrvLogo';
+import { AppBar as ImportedAppBar, Box, Divider, IconButton, Stack } from './HeaderForType1.styled';
+import Logo from './Logo';
+
+const SERVICE_NAME = process.env.REACT_APP_SERVICE_NAME || 'Mady by zombcatzomb';
 
 type HeaderForType1Props = {
     open: boolean;
@@ -35,6 +39,7 @@ const AppBar = styled(ImportedAppBar, {
 
 export default function HeaderForType1(props: HeaderForType1Props) {
     const theme = useTheme();
+    const { toggleColorMode } = useColorMode();
     const { open, onDrawerClose, onDrawerOpen, drawerWidth } = props;
     const handleMenu = () => {
         if (open) {
@@ -50,23 +55,56 @@ export default function HeaderForType1(props: HeaderForType1Props) {
                 <Toolbar>
                     <Box>
                         {!open && (
-                            <React.Fragment>
+                            <Box className="closed-appbar">
                                 <IconButton onClick={handleMenu} aria-expanded={open ? 'true' : undefined}>
                                     <AppsIcon />
                                 </IconButton>
                                 <Divider orientation="vertical" flexItem />
-                            </React.Fragment>
+                            </Box>
                         )}
                         <Logo
-                            LogoComponent={() =>
-                                theme.palette.mode === 'light' ? (
-                                    <LogoDSRV_B width={100} height={56} />
-                                ) : (
-                                    <LogoDSRV_W width={100} height={56} />
+                            LogoComponent={
+                                () => (
+                                    <DSRV
+                                        width={100}
+                                        height={56}
+                                        fill={theme.palette.mode === 'light' ? '#000' : '#fff'}
+                                    />
                                 )
+                                // theme.palette.mode === 'light' ? (
+                                //     <Image
+                                //         src="/svgs/master_black.svg"
+                                //         alt="dsrv_logo_lightmode"
+                                //         width={100}
+                                //         height={56}
+                                //         draggable={false}
+                                //         priority
+                                //     />
+                                // ) : (
+                                //     <Image
+                                //         src="/svgs/master_white.svg"
+                                //         alt="dsrv_logo_darkmode"
+                                //         color={'red'}
+                                //         width={100}
+                                //         height={56}
+                                //         draggable={false}
+                                //         priority
+                                //     />
+                                // )
                             }
                             serviceName={SERVICE_NAME}
                         />
+                        <Stack direction="row" alignItems={'center'}>
+                            <IconButton
+                                sx={{ ml: 1 }}
+                                color="inherit"
+                                onClick={() => {
+                                    toggleColorMode();
+                                }}
+                            >
+                                {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                            </IconButton>
+                        </Stack>
                     </Box>
                 </Toolbar>
             </AppBar>
