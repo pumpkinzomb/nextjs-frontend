@@ -4,7 +4,6 @@ type ClientOnlyProps = {
     children?: React.ReactNode;
 };
 
-// @ts-ignore
 const ClientOnly = ({ children }: ClientOnlyProps) => {
     const [mounted, setMounted] = useState<boolean>(false);
 

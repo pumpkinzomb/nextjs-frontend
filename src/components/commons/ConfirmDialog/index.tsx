@@ -2,9 +2,9 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
+import Image from 'next/image';
 
 import { DialogHeader, DialogActions, DialogContent, DialogTitle } from './ConfirmDialog.styled';
-import { ReactComponent as IconClose } from '@/styles/svg/close.svg';
 
 type ConfirmDialogProps = {
     onClose: () => void;
@@ -38,7 +38,7 @@ const ConfirmDialog = (props: ConfirmDialogProps) => {
             <DialogHeader direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
                 <DialogTitle>{title}</DialogTitle>
                 <IconButton onClick={() => onClose()}>
-                    <IconClose />
+                    <Image src={'/svg/close.svg'} alt={'icon-close'} draggable={false} priority />
                 </IconButton>
             </DialogHeader>
             <DialogContent>{children}</DialogContent>
