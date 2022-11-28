@@ -11,7 +11,7 @@ import {
     NotificationState,
     NotificationAction,
     NotificationPayload,
-} from './notification.types';
+} from './notification_legacy.types';
 
 const initialState: NotificationState = {
     messages: [],
