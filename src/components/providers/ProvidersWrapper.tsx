@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider as StyledComponentThemeProvider } from 'styled-components';
 import DialogProvider from '@/components/providers/DialogProvider';
 import NotificationProvider from '@/components/providers/ToastProvider';
+import ActionsProvider from '@/components/providers/ActionsProvider';
 import { myTheme } from '@/styles/theme';
 import GlobalStyles from '@/styles/GlobalStyles';
 
@@ -55,11 +56,13 @@ const ProvidersWrapper = (props: ProvidersWrapperProps) => {
                 <ThemeProvider theme={theme}>
                     <NotificationProvider>
                         <DialogProvider>
-                            <CssBaseline />
-                            <StyledComponentThemeProvider theme={theme}>
-                                <GlobalStyles />
-                            </StyledComponentThemeProvider>
-                            {children}
+                            <ActionsProvider>
+                                <CssBaseline />
+                                <StyledComponentThemeProvider theme={theme}>
+                                    <GlobalStyles />
+                                </StyledComponentThemeProvider>
+                                {children}
+                            </ActionsProvider>
                         </DialogProvider>
                     </NotificationProvider>
                 </ThemeProvider>

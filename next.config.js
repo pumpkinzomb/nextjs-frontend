@@ -2,9 +2,17 @@
 const path = require('path');
 
 const nextConfig = {
-    reactStrictMode: true,
+    reactStrictMode: false,
     swcMinify: true,
     pageExtensions: ['page.tsx', 'page.ts', 'page.jsx', 'page.js'],
+    rewrites: () => {
+        return [
+            {
+                source: '/api/ducks',
+                destination: 'https://random-d.uk/api/random',
+            },
+        ];
+    },
 };
 
 module.exports = {

@@ -1,3 +1,6 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
+import { Appstate } from '@/utils/store';
 import { Dispatch } from 'redux';
 import { handleActions } from 'redux-actions';
 
@@ -56,3 +59,18 @@ export const deleteNotification = (id: string) => ({
     type: DELETE_NOTIFICATION,
     payload: id,
 });
+
+// export const notificationSlice = createSlice({
+//     name: 'notification',
+//     initialState,
+//     reducers: notification,
+//     extraReducers: {
+//         [HYDRATE]: (state, action) => {
+//             if (!action.payload.notification.messages) {
+//                 return state;
+//             }
+//             console.log('HYDRATE', action.payload.notification.messages);
+//             state.messages = action.payload.notification.messages;
+//         },
+//     },
+// });

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/reducers';
-import * as notificationActions from '@/reducers/modules/notification';
+import notificationModule from '@/reducers/modules/notification_v2';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -13,7 +13,9 @@ type ToastProviderProps = {
 const ToastProvider = ({ children }: ToastProviderProps) => {
     const notification = useSelector((state: RootState) => state.notification);
     const dispatch = useDispatch();
-    const NotificationActions = bindActionCreators(notificationActions, dispatch);
+
+    const NotificationActions = bindActionCreators(notificationModule.actions, dispatch);
+
     const setToastMessages = (message: any) => {
         const toastFunction =
             message.type === 'success'
@@ -23,6 +25,7 @@ const ToastProvider = ({ children }: ToastProviderProps) => {
                 : message.type === 'warning'
                 ? toast.warning
                 : toast;
+
         toastFunction(message.contents, {
             position: 'top-right',
             autoClose: 3000,
@@ -32,13 +35,16 @@ const ToastProvider = ({ children }: ToastProviderProps) => {
             draggable: true,
             progress: undefined,
         });
-        NotificationActions.deleteNotification(message.id);
     };
 
     useEffect(() => {
-        notification.messages.map((item) => {
-            setToastMessages(item);
-        });
+        if (notification) {
+            const messages = new Set(notification.messages);
+            Array.from(messages).map((item: any) => {
+                setToastMessages(item);
+                NotificationActions.deleteNotification(item.id);
+            });
+        }
     }, [notification]);
 
     return (

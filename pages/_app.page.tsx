@@ -1,30 +1,26 @@
 import '@/styles/globals.css';
 import { useEffect } from 'react';
 import type { AppProps } from 'next/app';
-import { Provider } from 'react-redux';
-import rootReducer from '@/reducers';
-import thunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-
 import ProvidersWrapper from '@/components/providers/ProvidersWrapper';
 import ClientOnly from '@/components/commons/ClientOnly';
+import { wrapper } from '@/utils/store';
+import { passStoreToInterceptor } from '@/utils/apiController';
 
-const composeEnhancers = composeWithDevTools({ trace: true, traceLimit: 25 });
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+const App = ({ Component, ...rest }: AppProps) => {
+    const { store, props } = wrapper.useWrappedStore(rest);
 
-export default function App({ Component, pageProps }: AppProps) {
     useEffect(() => {
+        passStoreToInterceptor(store);
         console.log(`현재 개발환경은 : ${process.env.NEXT_PUBLIC_REACT_APP_MODE}`);
     }, []);
 
     return (
-        <Provider store={store}>
+        <ClientOnly>
             <ProvidersWrapper>
-                <ClientOnly>
-                    <Component {...pageProps} />
-                </ClientOnly>
+                <Component {...props.pageProps} />
             </ProvidersWrapper>
-        </Provider>
+        </ClientOnly>
     );
-}
+};
+
+export default wrapper.withRedux(App);
